@@ -29,7 +29,9 @@ import {
   CalendarCheck, 
   AlertTriangle, 
   Sparkles,
-  X
+  X,
+  SlidersHorizontal,
+  ChevronRight as ChevronRightIcon
 } from 'lucide-react';
 
 const PAGE_TITLES: Record<string, string> = {
@@ -61,6 +63,7 @@ export function TopBar() {
   // Popover State
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState<boolean>(false);
+  const [notifFilter, setNotifFilter] = useState<string>('All');
 
   // Date Picker month view state
   const [pickerMonth, setPickerMonth] = useState<Date>(currentSystemDate);
@@ -83,6 +86,12 @@ export function TopBar() {
   }, []);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
+
+  const filteredNotifications = notifications.filter((n) => {
+    if (notifFilter === 'All') return true;
+    if (notifFilter === 'Unread') return !n.read;
+    return n.type === notifFilter.toLowerCase();
+  });
 
   // Generate calendar days for date picker
   const monthStart = startOfMonth(pickerMonth);
@@ -129,7 +138,7 @@ export function TopBar() {
               setIsDatePickerOpen(!isDatePickerOpen);
               setIsNotificationsOpen(false);
             }}
-            className="flex items-center gap-2 text-xs font-mono font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 px-3 py-2 rounded-xl border border-slate-200 transition-all cursor-pointer shadow-2xs active:scale-98"
+            className="flex items-center gap-2 text-xs font-mono font-semibold text-slate-700 bg-slate-50 hover:bg-white hover:text-blue-600 px-3.5 py-2 rounded-xl border border-slate-200 hover:border-blue-400 transition-all cursor-pointer shadow-2xs hover:shadow-sm active:scale-98"
             title="System Date Filter (Click to change date)"
           >
             <Calendar className="w-4 h-4 text-blue-600" />
@@ -138,7 +147,7 @@ export function TopBar() {
 
           {/* Interactive Date Picker Popover Dropdown */}
           {isDatePickerOpen && (
-            <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 p-4 z-50 animate-fade-in">
+            <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 p-4 z-50 animate-fade-in font-sans">
               {/* Header */}
               <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
                 <span className="text-xs font-mono font-bold uppercase text-slate-500">
@@ -147,7 +156,7 @@ export function TopBar() {
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => setPickerMonth(subMonths(pickerMonth, 1))}
-                    className="p-1 rounded hover:bg-slate-100 text-slate-600"
+                    className="p-1 rounded-lg hover:bg-slate-100 text-slate-600 transition-colors"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
@@ -156,7 +165,7 @@ export function TopBar() {
                   </span>
                   <button
                     onClick={() => setPickerMonth(addMonths(pickerMonth, 1))}
-                    className="p-1 rounded hover:bg-slate-100 text-slate-600"
+                    className="p-1 rounded-lg hover:bg-slate-100 text-slate-600 transition-colors"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -196,22 +205,22 @@ export function TopBar() {
               </div>
 
               {/* Presets */}
-              <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+              <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-mono">
                 <button
                   onClick={() => handleSelectDate(new Date(2026, 7, 21))}
-                  className="text-blue-600 hover:underline font-semibold font-mono text-[11px]"
+                  className="text-blue-600 hover:underline font-bold text-[11px]"
                 >
                   Today (Aug 21)
                 </button>
                 <button
                   onClick={() => handleSelectDate(new Date(2026, 7, 22))}
-                  className="text-slate-600 hover:underline font-medium font-mono text-[11px]"
+                  className="text-slate-600 hover:underline font-medium text-[11px]"
                 >
                   Tomorrow
                 </button>
                 <button
                   onClick={() => handleSelectDate(new Date(2026, 7, 28))}
-                  className="text-slate-600 hover:underline font-medium font-mono text-[11px]"
+                  className="text-slate-600 hover:underline font-medium text-[11px]"
                 >
                   Next Week
                 </button>
@@ -220,43 +229,45 @@ export function TopBar() {
           )}
         </div>
 
-        {/* Notifications Bell Button */}
+        {/* Improved Notification Bell Button & Popover */}
         <div className="relative" ref={notifRef}>
           <button 
             onClick={() => {
               setIsNotificationsOpen(!isNotificationsOpen);
               setIsDatePickerOpen(false);
             }}
-            className="relative p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer border border-slate-200 bg-slate-50 shadow-2xs active:scale-95"
+            className="p-2.5 rounded-xl bg-slate-50 hover:bg-white text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-400/80 shadow-2xs hover:shadow-md transition-all duration-200 group relative active:scale-95 cursor-pointer"
             title="Notifications Center"
           >
-            <Bell className="w-4 h-4 text-slate-700" />
+            <Bell className="w-4 h-4 text-slate-700 group-hover:text-blue-600 group-hover:rotate-12 transition-all duration-200" />
+            
+            {/* Elevated Animated Unread Counter Badge */}
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-blue-600 text-white font-mono font-bold text-[10px] flex items-center justify-center ring-2 ring-white">
+              <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-[20px] px-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-mono font-bold text-[10px] flex items-center justify-center shadow-md ring-2 ring-white animate-pulse">
                 {unreadCount}
               </span>
             )}
           </button>
 
-          {/* Notifications Dropdown Popover */}
+          {/* Elevated Notification Popover Dropdown */}
           {isNotificationsOpen && (
-            <div className="absolute right-0 mt-2 w-88 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-50 animate-fade-in">
+            <div className="absolute right-0 mt-2 w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-50 animate-fade-in font-sans">
               {/* Header */}
-              <div className="p-3.5 bg-slate-900 text-white flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Bell className="w-4 h-4 text-blue-400" />
-                  <span className="font-bold text-xs text-white">System Notifications</span>
-                  {unreadCount > 0 && (
-                    <span className="bg-blue-600 text-white font-mono text-[10px] font-bold px-1.5 py-0.2 rounded-full">
-                      {unreadCount} new
-                    </span>
-                  )}
+              <div className="p-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-1.5 rounded-lg bg-blue-600/30 border border-blue-500/40 text-blue-400">
+                    <Bell className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-bold text-sm text-white block leading-tight">System Notifications</span>
+                    <span className="text-[10px] text-slate-400 font-mono block">Real-time LeadPulse Feeds</span>
+                  </div>
                 </div>
 
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllNotificationsRead}
-                    className="text-[11px] font-semibold text-blue-300 hover:text-white flex items-center gap-1 cursor-pointer"
+                    className="text-[11px] font-semibold text-blue-400 hover:text-white flex items-center gap-1 bg-slate-800 hover:bg-slate-700 px-2.5 py-1 rounded-lg border border-slate-700 transition-colors cursor-pointer"
                   >
                     <CheckCheck className="w-3.5 h-3.5" />
                     Mark all read
@@ -264,45 +275,71 @@ export function TopBar() {
                 )}
               </div>
 
+              {/* Filter Pills Bar */}
+              <div className="px-3 py-2 bg-slate-50 border-b border-slate-200 flex items-center gap-1.5 overflow-x-auto text-[11px] font-semibold text-slate-600">
+                {['All', 'Unread', 'Signal', 'Lead', 'Meeting', 'Alert'].map((f) => (
+                  <button
+                    key={f}
+                    onClick={() => setNotifFilter(f)}
+                    className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer whitespace-nowrap ${
+                      notifFilter === f
+                        ? 'bg-slate-900 text-white font-bold'
+                        : 'hover:bg-slate-200/70 text-slate-600'
+                    }`}
+                  >
+                    {f}
+                  </button>
+                ))}
+              </div>
+
               {/* Notifications List */}
               <div className="max-h-80 overflow-y-auto divide-y divide-slate-100 text-xs">
-                {notifications.length === 0 ? (
-                  <div className="p-6 text-center text-slate-400 italic">
-                    No system notifications.
+                {filteredNotifications.length === 0 ? (
+                  <div className="p-8 text-center text-slate-400 italic">
+                    No notifications in this view.
                   </div>
                 ) : (
-                  notifications.map((n) => {
+                  filteredNotifications.map((n) => {
                     const iconMap = {
-                      signal: <Radar className="w-3.5 h-3.5 text-indigo-600" />,
-                      lead: <Target className="w-3.5 h-3.5 text-blue-600" />,
-                      meeting: <CalendarCheck className="w-3.5 h-3.5 text-emerald-600" />,
-                      alert: <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />,
+                      signal: <Radar className="w-4 h-4 text-indigo-600" />,
+                      lead: <Target className="w-4 h-4 text-blue-600" />,
+                      meeting: <CalendarCheck className="w-4 h-4 text-emerald-600" />,
+                      alert: <AlertTriangle className="w-4 h-4 text-amber-600" />,
+                    }[n.type];
+
+                    const bgMap = {
+                      signal: 'bg-indigo-50',
+                      lead: 'bg-blue-50',
+                      meeting: 'bg-emerald-50',
+                      alert: 'bg-amber-50',
                     }[n.type];
 
                     return (
                       <div
                         key={n.id}
                         onClick={() => handleNotificationClick(n.id, n.link)}
-                        className={`p-3.5 flex items-start gap-3 hover:bg-slate-50 transition-colors cursor-pointer ${
-                          !n.read ? 'bg-blue-50/40 font-medium' : 'bg-white'
+                        className={`p-3.5 flex items-start gap-3 hover:bg-slate-50 transition-colors cursor-pointer group ${
+                          !n.read ? 'bg-blue-50/30' : 'bg-white'
                         }`}
                       >
-                        <div className="p-1.5 rounded-lg bg-slate-100 shrink-0 mt-0.5">
+                        <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${bgMap}`}>
                           {iconMap}
                         </div>
 
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between gap-1">
-                            <span className="font-bold text-slate-900 text-xs">{n.title}</span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-1 mb-0.5">
+                            <span className="font-bold text-slate-900 text-xs group-hover:text-blue-600 transition-colors truncate">
+                              {n.title}
+                            </span>
                             <span className="text-[10px] font-mono text-slate-400 shrink-0">{n.time}</span>
                           </div>
-                          <p className="text-[11px] text-slate-600 mt-0.5 line-clamp-2 leading-relaxed">
+                          <p className="text-[11px] text-slate-600 line-clamp-2 leading-relaxed">
                             {n.description}
                           </p>
                         </div>
 
                         {!n.read && (
-                          <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0 mt-2" title="Unread" />
+                          <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0 mt-2 shadow-xs" title="Unread" />
                         )}
                       </div>
                     );
@@ -311,12 +348,18 @@ export function TopBar() {
               </div>
 
               {/* Footer */}
-              <div className="p-2.5 bg-slate-50 border-t border-slate-100 text-center">
+              <div className="p-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs">
+                <span className="text-slate-500 text-[11px] font-mono">
+                  {notifications.length} total notifications
+                </span>
                 <button
-                  onClick={() => setIsNotificationsOpen(false)}
-                  className="text-[11px] font-semibold text-slate-500 hover:text-slate-800"
+                  onClick={() => {
+                    setIsNotificationsOpen(false);
+                    router.push('/report');
+                  }}
+                  className="text-blue-600 hover:text-blue-800 font-bold inline-flex items-center gap-1 text-[11px]"
                 >
-                  Close Notifications
+                  View Reports & Alerts <ChevronRightIcon className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
@@ -327,7 +370,7 @@ export function TopBar() {
         <button
           onClick={runDailyScan}
           disabled={isScanning}
-          className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white px-4 py-2 rounded-lg text-xs font-semibold shadow-sm transition-all duration-150 cursor-pointer disabled:opacity-75"
+          className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all duration-150 cursor-pointer disabled:opacity-75"
         >
           <Radar className={`w-4 h-4 text-white ${isScanning ? 'animate-spin' : ''}`} />
           <span>{isScanning ? 'Scanning Feeds...' : 'Run Daily Scan'}</span>
