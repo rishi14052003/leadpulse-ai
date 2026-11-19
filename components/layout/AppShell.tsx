@@ -1,16 +1,24 @@
 'use client';
 
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans antialiased">
-      <Sidebar />
-      <TopBar />
-      <main className="pl-60 pt-16 min-h-screen bg-slate-50/50">
-        <div className="max-w-[1400px] mx-auto p-6 space-y-6">
+      <Sidebar
+        isMobileMenuOpen={isMobileMenuOpen}
+        onCloseMobileMenu={() => setIsMobileMenuOpen(false)}
+      />
+      <TopBar
+        isMobileMenuOpen={isMobileMenuOpen}
+        onToggleMobileMenu={() => setIsMobileMenuOpen((open) => !open)}
+      />
+      <main className="min-h-screen bg-slate-50/50 pt-16 md:pl-60">
+        <div className="mx-auto max-w-[1400px] space-y-5 p-3 sm:p-4 lg:space-y-6 lg:p-6">
           {children}
         </div>
       </main>

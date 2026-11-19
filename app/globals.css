@@ -4,8 +4,8 @@
 
 @layer base {
   body {
-    background-color: #FFFFFF;
-    color: #0F172A;
+    background-color: #FAF7F2;
+    color: #35291F;
     font-family: var(--font-montserrat), system-ui, sans-serif;
   }
 }
@@ -13,13 +13,13 @@
 /* Radar pulse animation for signal cards */
 @keyframes radarPing {
   0% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+    box-shadow: 0 0 0 0 rgba(233, 75, 52, 0.6);
   }
   70% {
-    box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+    box-shadow: 0 0 0 12px rgba(233, 75, 52, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    box-shadow: 0 0 0 0 rgba(233, 75, 52, 0);
   }
 }
 
@@ -33,12 +33,12 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: #F2ECE3;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #D7C4AB;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #BFA184;
 }

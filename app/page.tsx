@@ -45,10 +45,10 @@ export default function DashboardPage() {
 
   // Lead Quality Donut Chart Data
   const leadQualityData = [
-    { name: 'Hot Leads (80+)', value: 6, color: '#EF4444' },
-    { name: 'Warm Leads (65-79)', value: 5, color: '#F59E0B' },
-    { name: 'Nurture Queue', value: 2, color: '#6366F1' },
-    { name: 'Rejected', value: 1, color: '#94A3B8' },
+    { name: 'Hot Leads (80+)', value: 6, color: '#E94B34' },
+    { name: 'Warm Leads (65-79)', value: 5, color: '#FFC21C' },
+    { name: 'Nurture Queue', value: 2, color: '#806147' },
+    { name: 'Rejected', value: 1, color: '#D7C4AB' },
   ];
 
   // Outreach Performance Grouped Bar Chart Data
@@ -127,25 +127,29 @@ export default function DashboardPage() {
               return (
                 <div
                   key={signal.id}
-                  className={`p-3.5 rounded-xl border transition-all duration-300 flex items-center justify-between ${
-                    isActive || signal.isNew
-                      ? 'bg-emerald-50/40 border-emerald-300 shadow-md ring-1 ring-emerald-400/50'
-                      : 'bg-slate-50/70 border-slate-200 hover:bg-slate-100/80'
+                  className={`flex items-center justify-between gap-3 rounded-xl border p-3.5 transition-all duration-300 ${
+                    isActive
+                    ? 'bg-amber-50/70 border-amber-300 shadow-md ring-1 ring-amber-400/50'
+                    : signal.isNew
+                    ? 'bg-white border-slate-200 shadow-xs'
+                    : 'bg-slate-50/70 border-slate-200 hover:bg-slate-100/80'
                   }`}
                 >
-                  <div className="flex items-start gap-3">
-                    <span className="flex items-center gap-1 text-xs text-slate-500" aria-label={signal.country}>
-                      <MapPin className="h-4 w-4" />
-                      {signal.country}
-                    </span>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-bold text-xs text-slate-900">{signal.company}</h3>
+                  <div className="flex min-w-0 flex-1 items-start gap-3">
+                  <div
+                    className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500"
+                    title={signal.country}
+                  >
+                    <MapPin className="h-4 w-4" aria-label={signal.country} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex min-w-0 flex-wrap items-center gap-2">
+                      <h3 className="truncate font-bold text-xs text-slate-900">{signal.company}</h3>
                         <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
                           {signal.triggerType}
                         </span>
                         {isActive && (
-                          <span className="inline-flex items-center text-[10px] font-mono text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full font-bold">
+                          <span className="inline-flex items-center text-[10px] font-mono text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full font-bold">
                             PING
                           </span>
                         )}
@@ -153,8 +157,8 @@ export default function DashboardPage() {
                       <p className="text-xs text-slate-600 mt-1 line-clamp-1 italic">
                         "{signal.snippet}"
                       </p>
-                      <span className="text-[10px] text-slate-400 font-mono block mt-1">
-                        {signal.source} • {signal.signalDate}
+                      <span className="mt-1 block truncate text-[10px] text-slate-400 font-mono">
+                        {signal.country} · {signal.source} • {signal.signalDate}
                       </span>
                     </div>
                   </div>
@@ -206,7 +210,7 @@ export default function DashboardPage() {
                     ))}
                   </Pie>
                   <Tooltip 
-                    contentStyle={{ backgroundColor: '#0F172A', color: '#FFF', borderRadius: '8px', border: 'none', fontSize: '12px' }}
+                    contentStyle={{ backgroundColor: '#35291F', color: '#FFFCF7', borderRadius: '8px', border: 'none', fontSize: '12px' }}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -243,14 +247,14 @@ export default function DashboardPage() {
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={outreachPerformanceData}>
-                <XAxis dataKey="week" stroke="#64748B" fontSize={11} />
-                <YAxis stroke="#64748B" fontSize={11} />
-                <Tooltip contentStyle={{ backgroundColor: '#0F172A', color: '#FFF', borderRadius: '8px', fontSize: '12px' }} />
+                <XAxis dataKey="week" stroke="#806147" fontSize={11} />
+                <YAxis stroke="#806147" fontSize={11} />
+                <Tooltip contentStyle={{ backgroundColor: '#35291F', color: '#FFFCF7', borderRadius: '8px', fontSize: '12px' }} />
                 <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
-                <Bar dataKey="Email" fill="#2563EB" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="WhatsApp" fill="#10B981" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="LinkedIn" fill="#6366F1" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Calls" fill="#F59E0B" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Email" fill="#E94B34" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="WhatsApp" fill="#806147" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="LinkedIn" fill="#FFC21C" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Calls" fill="#BFA184" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

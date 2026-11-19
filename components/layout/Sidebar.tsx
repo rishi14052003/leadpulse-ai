@@ -14,7 +14,8 @@ import {
   MessageSquareReply, 
   FileText, 
   Settings,
-  Sparkles
+  Sparkles,
+  X
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -28,13 +29,28 @@ const NAV_ITEMS = [
   { label: 'Daily Report', href: '/report', icon: FileText },
 ];
 
-export function Sidebar() {
+export function Sidebar({
+  isMobileMenuOpen,
+  onCloseMobileMenu,
+}: {
+  isMobileMenuOpen: boolean;
+  onCloseMobileMenu: () => void;
+}) {
   const pathname = usePathname();
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
 
   return (
     <>
-      <aside className="fixed top-0 left-0 bottom-0 w-60 bg-slate-900 text-white flex flex-col justify-between z-40 border-r border-slate-800 font-sans shadow-xl">
+      {isMobileMenuOpen && (
+        <button
+          aria-label="Close navigation backdrop"
+          className="fixed inset-0 z-40 bg-slate-950/60 md:hidden"
+          onClick={onCloseMobileMenu}
+        />
+      )}
+      <aside className={`fixed inset-y-0 left-0 z-50 flex w-60 flex-col justify-between border-r border-slate-800 bg-slate-900 font-sans text-white shadow-xl transition-transform md:translate-x-0 ${
+        isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
         {/* Top Section */}
         <div>
           {/* Brand Logo */}
@@ -51,6 +67,13 @@ export function Sidebar() {
                   Sales Intelligence
                 </span>
               </div>
+              <button
+                aria-label="Close navigation"
+                className="ml-auto rounded-lg p-2 text-slate-300 hover:bg-slate-800 md:hidden"
+                onClick={onCloseMobileMenu}
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
           </div>
 
@@ -64,6 +87,8 @@ export function Sidebar() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={isActive ? 'page' : undefined}
+                  onClick={onCloseMobileMenu}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold transition-all group relative ${
                     isActive
                       ? 'bg-blue-600/15 text-white border-l-4 border-blue-500 font-bold pl-2.5'

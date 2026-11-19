@@ -31,7 +31,8 @@ import {
   Sparkles,
   X,
   SlidersHorizontal,
-  ChevronRight as ChevronRightIcon
+  ChevronRight as ChevronRightIcon,
+  Menu
 } from 'lucide-react';
 
 const PAGE_TITLES: Record<string, string> = {
@@ -45,7 +46,13 @@ const PAGE_TITLES: Record<string, string> = {
   '/report': 'Daily Performance Report',
 };
 
-export function TopBar() {
+export function TopBar({
+  isMobileMenuOpen,
+  onToggleMobileMenu,
+}: {
+  isMobileMenuOpen: boolean;
+  onToggleMobileMenu: () => void;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const { 
@@ -115,14 +122,23 @@ export function TopBar() {
   };
 
   return (
-    <header className="fixed top-0 left-60 right-0 h-16 bg-white border-b border-slate-200 z-30 px-6 flex items-center justify-between shadow-2xs font-sans">
-      {/* Page Title */}
-      <h1 className="text-lg font-bold text-slate-900 tracking-tight">
-        {title}
-      </h1>
+    <header className="fixed top-0 left-0 right-0 z-30 flex h-16 items-center justify-between gap-2 border-b border-slate-200 bg-white px-3 shadow-2xs font-sans sm:px-6 md:left-60">
+      <div className="flex min-w-0 flex-1 items-center gap-2">
+        <button
+          aria-label="Toggle navigation"
+          aria-expanded={isMobileMenuOpen}
+          onClick={onToggleMobileMenu}
+          className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 md:hidden"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+        <h1 className="truncate text-sm font-bold tracking-tight text-slate-900 sm:text-lg">
+          {title}
+        </h1>
+      </div>
 
       {/* Center Live Status Pill */}
-      <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-xs text-slate-600 font-mono shadow-2xs">
+      <div className="hidden items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-600 font-mono shadow-2xs xl:flex">
         <PulseRing size="sm" />
         <span className="font-semibold text-slate-800">System Active</span>
         <span className="text-slate-400">•</span>
@@ -130,7 +146,7 @@ export function TopBar() {
       </div>
 
       {/* Right Controls */}
-      <div className="flex items-center gap-3">
+      <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
         {/* Date Picker Button / Pill */}
         <div className="relative" ref={datePickerRef}>
           <button
@@ -138,11 +154,11 @@ export function TopBar() {
               setIsDatePickerOpen(!isDatePickerOpen);
               setIsNotificationsOpen(false);
             }}
-            className="flex items-center gap-2 text-xs font-mono font-semibold text-slate-700 bg-slate-50 hover:bg-white hover:text-blue-600 px-3.5 py-2 rounded-xl border border-slate-200 hover:border-blue-400 transition-all cursor-pointer shadow-2xs hover:shadow-sm active:scale-98"
+            className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs font-mono font-semibold text-slate-700 shadow-2xs transition-all hover:border-blue-400 hover:bg-white hover:text-blue-600 hover:shadow-sm active:scale-98 sm:px-3.5"
             title="System Date Filter (Click to change date)"
           >
             <Calendar className="w-4 h-4 text-blue-600" />
-            <span>{format(currentSystemDate, 'EEE, MMM d, yyyy')}</span>
+            <span className="hidden sm:inline">{format(currentSystemDate, 'EEE, MMM d, yyyy')}</span>
           </button>
 
           {/* Interactive Date Picker Popover Dropdown */}
@@ -370,10 +386,10 @@ export function TopBar() {
         <button
           onClick={runDailyScan}
           disabled={isScanning}
-          className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all duration-150 cursor-pointer disabled:opacity-75"
+          className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-2.5 py-2 text-xs font-semibold text-white shadow-sm transition-all duration-150 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-75 sm:px-4 cursor-pointer"
         >
           <Radar className={`w-4 h-4 text-white ${isScanning ? 'animate-spin' : ''}`} />
-          <span>{isScanning ? 'Scanning Feeds...' : 'Run Daily Scan'}</span>
+          <span className="hidden sm:inline">{isScanning ? 'Scanning Feeds...' : 'Run Daily Scan'}</span>
         </button>
       </div>
     </header>
