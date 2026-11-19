@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, Settings, Sliders, Shield, Zap, Bell, Database, CheckCircle2, Globe, Save } from 'lucide-react';
+import { X, Settings, Sliders, Shield, Zap, Bell, Database, CheckCircle2, Globe, MapPin, Save } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface SettingsModalProps {
@@ -115,10 +115,10 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
             </label>
             <div className="grid grid-cols-2 gap-2 text-xs">
               {[
-                { code: 'UAE', label: 'UAE 🇦🇪 (JAFZA, Abu Dhabi)' },
-                { code: 'KSA', label: 'Saudi Arabia 🇸🇦 (NEOM, Jubail)' },
-                { code: 'India', label: 'India 🇮🇳 (Gujarat, JNPT)' },
-                { code: 'Poland', label: 'Poland 🇵🇱 (Katowice, Baltic)' },
+                { code: 'UAE', label: 'UAE (JAFZA, Abu Dhabi)' },
+                { code: 'KSA', label: 'Saudi Arabia (NEOM, Jubail)' },
+                { code: 'India', label: 'India (Gujarat, JNPT)' },
+                { code: 'Poland', label: 'Poland (Katowice, Baltic)' },
               ].map((reg) => (
                 <label
                   key={reg.code}
@@ -132,7 +132,10 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                     }
                     className="w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500"
                   />
-                  <span>{reg.label}</span>
+                  <span className="flex items-center gap-1.5">
+                    <MapPin className="h-3.5 w-3.5 text-slate-400" />
+                    {reg.label}
+                  </span>
                 </label>
               ))}
             </div>

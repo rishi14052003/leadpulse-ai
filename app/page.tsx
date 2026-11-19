@@ -14,7 +14,8 @@ import {
   ExternalLink, 
   ArrowRight,
   Sparkles,
-  ChevronRight
+  ChevronRight,
+  MapPin
 } from 'lucide-react';
 import { 
   PieChart, 
@@ -133,8 +134,9 @@ export default function DashboardPage() {
                   }`}
                 >
                   <div className="flex items-start gap-3">
-                    <span className="text-2xl" role="img" aria-label={signal.country}>
-                      {signal.flag}
+                    <span className="flex items-center gap-1 text-xs text-slate-500" aria-label={signal.country}>
+                      <MapPin className="h-4 w-4" />
+                      {signal.country}
                     </span>
                     <div>
                       <div className="flex items-center gap-2">

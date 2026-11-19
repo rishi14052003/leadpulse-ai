@@ -1,7 +1,5 @@
 export type Country = 'UAE' | 'Saudi Arabia' | 'India' | 'Poland';
 
-export type CountryFlag = '🇦🇪' | '🇸🇦' | '🇮🇳' | '🇵🇱';
-
 export type TriggerType = 
   | 'EPC Award'
   | 'Market Entry'
@@ -16,7 +14,6 @@ export interface Signal {
   id: string;
   company: string;
   country: Country;
-  flag: CountryFlag;
   triggerType: TriggerType;
   confidence: number; // 0 - 100
   source: string;
@@ -37,7 +34,6 @@ export interface Lead {
   id: string;
   company: string;
   country: Country;
-  flag: CountryFlag;
   serviceMatch: string;
   score: number; // Signal Strength
   tier: LeadTier;
@@ -98,7 +94,6 @@ export interface PipelineCard {
   id: string;
   company: string;
   country: Country;
-  flag: CountryFlag;
   serviceTag: string;
   score: number;
   stage: PipelineStage;

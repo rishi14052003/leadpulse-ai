@@ -20,7 +20,8 @@ import {
   UserCheck, 
   Building2,
   DollarSign,
-  Sparkles
+  Sparkles,
+  MapPin
 } from 'lucide-react';
 
 export default function DailyReportPage() {
@@ -129,7 +130,7 @@ export default function DailyReportPage() {
                   <tr key={opp.id} className="hover:bg-slate-50/80 transition-colors">
                     <td className="py-3 px-3 font-bold text-slate-900">
                       <div className="flex items-center gap-1.5">
-                        <span>{opp.flag}</span>
+                        <MapPin className="h-3.5 w-3.5 text-slate-400" aria-label={opp.country} />
                         <span>{opp.company}</span>
                       </div>
                     </td>

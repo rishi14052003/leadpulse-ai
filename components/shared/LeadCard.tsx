@@ -3,7 +3,7 @@
 import React from 'react';
 import { Lead } from '../../lib/types';
 import { ScoreBadge } from './ScoreBadge';
-import { ExternalLink, UserCheck, Zap } from 'lucide-react';
+import { ExternalLink, UserCheck, Zap, MapPin } from 'lucide-react';
 
 interface LeadCardProps {
   lead: Lead;
@@ -17,7 +17,10 @@ export function LeadCard({ lead, onOpenSheet }: LeadCardProps) {
       <div>
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="text-xl" role="img" aria-label={lead.country}>{lead.flag}</span>
+            <span className="flex shrink-0 items-center gap-1 text-xs text-slate-500" aria-label={lead.country}>
+              <MapPin className="h-4 w-4" />
+              {lead.country}
+            </span>
             <h3 className="font-bold text-slate-900 text-base leading-snug group-hover:text-blue-600 transition-colors">
               {lead.company}
             </h3>

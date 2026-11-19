@@ -185,7 +185,7 @@ function OutreachContent() {
             >
               {leads.map((l) => (
                 <option key={l.id} value={l.id}>
-                  {l.flag} {l.company} ({l.serviceMatch} • {l.score}% Fit)
+                  {l.company} ({l.serviceMatch} • {l.score}% Fit)
                 </option>
               ))}
             </select>

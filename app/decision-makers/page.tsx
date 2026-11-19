@@ -61,7 +61,7 @@ export default function DecisionMakersPage() {
             <option value="All">All Companies ({contacts.length} Decision Makers)</option>
             {leads.map((lead) => (
               <option key={lead.id} value={lead.id}>
-                {lead.flag} {lead.company}
+                {lead.company}
               </option>
             ))}
           </select>

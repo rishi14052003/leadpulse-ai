@@ -23,7 +23,7 @@ import {
   useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Kanban, Clock, DollarSign, GripVertical } from 'lucide-react';
+import { Kanban, Clock, DollarSign, GripVertical, MapPin } from 'lucide-react';
 
 // Draggable Card Item Component
 function DraggableCard({ card }: { card: PipelineCardType }) {
@@ -66,7 +66,7 @@ function DraggableCard({ card }: { card: PipelineCardType }) {
           >
             <GripVertical className="w-3.5 h-3.5" />
           </span>
-          <span className="text-base" role="img" aria-label={card.country}>{card.flag}</span>
+          <MapPin className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-label={card.country} />
           <h4 className="font-bold text-xs text-slate-900 line-clamp-1 group-hover:text-blue-600 transition-colors">
             {card.company}
           </h4>
@@ -222,7 +222,7 @@ export default function PipelinePage() {
           {activeCard ? (
             <div className="bg-white rounded-xl border-2 border-blue-500 p-3.5 shadow-2xl rotate-3 w-72 opacity-95">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-base">{activeCard.flag}</span>
+                <MapPin className="h-4 w-4 text-slate-400" aria-label={activeCard.country} />
                 <span className="font-bold text-xs text-slate-900">{activeCard.company}</span>
               </div>
               <div className="text-xs font-mono font-bold text-blue-600">{formatCurrency(activeCard.value)}</div>

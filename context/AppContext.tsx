@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import { CheckCircle2 } from 'lucide-react';
 import { 
   Signal, 
   Lead, 
@@ -24,7 +25,7 @@ const INITIAL_NOTIFICATIONS: AppNotification[] = [
   {
     id: 'notif-001',
     type: 'signal',
-    title: '⚡ New Buying Signal Detected',
+    title: 'New Buying Signal Detected',
     description: 'GulfGas Offshore FZE ($64M FPSO conversion package) posted PFP tender.',
     time: '10 mins ago',
     read: false,
@@ -33,7 +34,7 @@ const INITIAL_NOTIFICATIONS: AppNotification[] = [
   {
     id: 'notif-002',
     type: 'meeting',
-    title: '📅 Meeting Confirmed Today',
+    title: 'Meeting Confirmed Today',
     description: 'ZenithEnergy Co (Marcus Vance) scheduled technical presentation for 10:00 AM GST.',
     time: '45 mins ago',
     read: false,
@@ -42,7 +43,7 @@ const INITIAL_NOTIFICATIONS: AppNotification[] = [
   {
     id: 'notif-003',
     type: 'lead',
-    title: '🎯 Hot Lead Qualified',
+    title: 'Hot Lead Qualified',
     description: 'AlphaSteel Industries (Score 92%) qualified and added to priority sales queue.',
     time: '2 hours ago',
     read: false,
@@ -51,7 +52,7 @@ const INITIAL_NOTIFICATIONS: AppNotification[] = [
   {
     id: 'notif-004',
     type: 'alert',
-    title: '⚠️ Email Verification Failure',
+    title: 'Email Verification Failure',
     description: '3 contact lookups failed MX record verification. Action required.',
     time: '3 hours ago',
     read: true,
@@ -142,7 +143,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
           id: `sig-scan-${Date.now()}-1`,
           company: 'GulfGas Offshore FZE',
           country: 'UAE',
-          flag: '🇦🇪',
           triggerType: 'EPC Award',
           confidence: 97,
           source: 'Dubai Maritime Authority',
@@ -156,7 +156,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
           id: `sig-scan-${Date.now()}-2`,
           company: 'Al-Farabi Petrochem',
           country: 'Saudi Arabia',
-          flag: '🇸🇦',
           triggerType: 'Shutdown',
           confidence: 91,
           source: 'Jubail Industrial Gazette',
@@ -174,7 +173,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const newNotif: AppNotification = {
         id: `notif-scan-${Date.now()}`,
         type: 'signal',
-        title: '⚡ Daily Scan Complete',
+        title: 'Daily Scan Complete',
         description: '2 new signals found (GulfGas Offshore FZE, Al-Farabi Petrochem).',
         time: 'Just now',
         read: false,
@@ -184,8 +183,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       setIsScanning(false);
 
-      toast.success('✅ Scan complete — 47 new signals found, 12 leads qualified!', {
+      toast.success('Scan complete — 47 new signals found, 12 leads qualified!', {
         description: 'Live signal feed & notification center updated.',
+        icon: <CheckCircle2 className="h-4 w-4" />,
         duration: 4000,
       });
     }, 1500);
@@ -205,7 +205,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       id: `lead-gen-${Date.now()}`,
       company: signal.company,
       country: signal.country,
-      flag: signal.flag,
       serviceMatch: 'Passive Fire (PFP)',
       score: signal.confidence,
       tier: signal.confidence >= 80 ? 'Hot' : 'Warm',
@@ -233,7 +232,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const newNotif: AppNotification = {
       id: `notif-qual-${Date.now()}`,
       type: 'lead',
-      title: `🎯 ${signal.company} Qualified`,
+      title: `${signal.company} Qualified`,
       description: `Signal converted to Lead with ${signal.confidence}% Signal Strength.`,
       time: 'Just now',
       read: false,

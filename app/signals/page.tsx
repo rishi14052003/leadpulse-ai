@@ -13,7 +13,8 @@ import {
   CheckCircle2, 
   Filter, 
   Search,
-  Sparkles
+  Sparkles,
+  MapPin
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -114,10 +115,10 @@ export default function SignalDiscoveryPage() {
               className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
             >
               <option value="All">All Countries (UAE, KSA, IN, PL)</option>
-              <option value="UAE">UAE 🇦🇪</option>
-              <option value="Saudi Arabia">Saudi Arabia 🇸🇦</option>
-              <option value="India">India 🇮🇳</option>
-              <option value="Poland">Poland 🇵🇱</option>
+              <option value="UAE">UAE</option>
+              <option value="Saudi Arabia">Saudi Arabia</option>
+              <option value="India">India</option>
+              <option value="Poland">Poland</option>
             </select>
           </div>
 
@@ -208,7 +209,7 @@ export default function SignalDiscoveryPage() {
 
                         {/* Country */}
                         <td className="py-3 px-4 font-medium text-slate-700">
-                          <span className="mr-1.5 text-base">{signal.flag}</span>
+                          <MapPin className="mr-1.5 inline h-3.5 w-3.5 text-slate-400" />
                           {signal.country}
                         </td>
 

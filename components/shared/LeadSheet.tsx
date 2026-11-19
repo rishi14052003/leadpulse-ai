@@ -32,7 +32,7 @@ export function LeadSheet({ lead, isOpen, onClose }: LeadSheetProps) {
         <div className="p-6 bg-slate-900 text-white flex items-start justify-between border-b border-slate-800">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-2xl">{lead.flag}</span>
+              <MapPin className="h-4 w-4 text-slate-400" aria-label={lead.country} />
               <span className="text-xs uppercase font-mono tracking-wider text-slate-400 font-semibold">{lead.country}</span>
               <span className="text-slate-600">•</span>
               <span className="text-xs text-blue-400 font-medium">{lead.industry}</span>
